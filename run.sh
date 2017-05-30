@@ -30,8 +30,10 @@ while [[ $# > 0 ]]; do
 done
 
 # Create shared folders
-mkdir -p $SOURCE
-mkdir -p $CCACHE
+# Although docker would create non-existing directories on the fly,
+# we need to have them owned by the user (and not root), to be able
+# to write in them, which is a neccessity for startup.sh
+mkdir -p $SOURCE $CCACHE
 
 # Build image if needed
 IMAGE_EXISTS=$(docker images $REPOSITORY)
